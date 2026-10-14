@@ -1,25 +1,34 @@
 <div class="login-card">
     <h2>Sign in to continue</h2>
 
-    <form>
+    <form #loginForm="ngForm" (ngSubmit)="ToHome()">
         <div class="login-email">
             <mat-form-field appearance="outline">
                 <mat-label>Enter your email</mat-label>
-                <input matInput type="email" placeholder="pat@example.com" [(ngModel)]="email" name="email" />
+                <input matInput type="email" placeholder="pat@example.com" [(ngModel)]="email" name="email" required
+                    #emailModel="ngModel" />
             </mat-form-field>
+            @if (emailModel.invalid && emailModel.touched) {
+            <span class="error">Email is Required</span>
+            }
         </div>
 
         <div class="login-password">
             <mat-form-field appearance="outline">
                 <mat-label>Enter your password</mat-label>
-                <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password" />
+                <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password" required
+                    #passwordModel="ngModel" />
             </mat-form-field>
+            @if (passwordModel.touched) {
+            <span class="error">Password is Required</span>
+            }
+
         </div>
         @if (message) {
         <span class="message"
             [ngClass]="{ 'success-message' : isSuccess, 'failure-message' : !isSuccess }">{{message}}</span>
         }
 
-        <button (click)="ToHome()" type="button" class="submit-btn">LogIn</button>
+        <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">LogIn</button>
     </form>
 </div>

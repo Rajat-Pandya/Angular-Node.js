@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Navbar } from '../navbar/navbar';
 
@@ -8,4 +8,6 @@ import { Navbar } from '../navbar/navbar';
   templateUrl: './about.html',
   styleUrl: './about.css',
 })
-export class About {}
+export class About {
+
+}

@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Pipe } from '@angular/core';
 import { Router } from '@angular/router';
 import { Navbar } from '../navbar/navbar';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-myself',
-  imports: [Navbar],
+  imports: [Navbar, CommonModule],
   templateUrl: './myself.html',
   styleUrl: './myself.css',
 })
