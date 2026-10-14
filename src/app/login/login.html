@@ -5,17 +5,21 @@
         <div class="login-email">
             <mat-form-field appearance="outline">
                 <mat-label>Enter your email</mat-label>
-                <input matInput type="email" placeholder="pat@example.com" />
+                <input matInput type="email" placeholder="pat@example.com" [(ngModel)]="email" name="email" />
             </mat-form-field>
         </div>
 
         <div class="login-password">
             <mat-form-field appearance="outline">
                 <mat-label>Enter your password</mat-label>
-                <input matInput type="password" placeholder="Password" />
+                <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password" />
             </mat-form-field>
         </div>
+        @if (message) {
+        <span class="message"
+            [ngClass]="{ 'success-message' : isSuccess, 'failure-message' : !isSuccess }">{{message}}</span>
+        }
 
-        <button (click)="ToHome()" type="submit" class="submit-btn">Submit</button>
+        <button (click)="ToHome()" type="button" class="submit-btn">LogIn</button>
     </form>
 </div>
