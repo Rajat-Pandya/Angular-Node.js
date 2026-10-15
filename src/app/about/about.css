@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #f8fafc;
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 32px 32px 16px;
+  letter-spacing: -0.5px;
+}
+
+@media (max-width: 680px) {
+  h1 {
+    margin: 20px 20px 12px;
+    font-size: 24px;
+  }
+}

@@ -19,7 +19,7 @@
                 <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password" required
                     #passwordModel="ngModel" />
             </mat-form-field>
-            @if (passwordModel.touched) {
+            @if (passwordModel.invalid && passwordModel.touched) {
             <span class="error">Password is Required</span>
             }
 
@@ -31,4 +31,6 @@
 
         <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">LogIn</button>
     </form>
+
+    <span>Not a User?</span><a routerLink="/registration">Register</a>
 </div>

@@ -1,2 +1,154 @@
 <app-navbar></app-navbar>
-<h1>emp-detail works!</h1>
+
+<div class="emp-container">
+    <div class="emp-card login-card">
+        <h2>Employee Details</h2>
+
+        <form #empForm="ngForm" (ngSubmit)="saveEmployee(empForm)" class="form-grid">
+
+            <mat-form-field appearance="outline">
+                <mat-label>Employee ID</mat-label>
+                <input matInput type="text" name="empId" [(ngModel)]="employee.empId" required pattern="^EMP-\d{4}$"
+                    placeholder="EMP-1234" #empIdModel="ngModel" />
+                @if (empIdModel.errors?.['required']) {
+                <mat-error>Employee ID is required</mat-error>
+                } @else if (empIdModel.errors?.['pattern']) {
+                <mat-error>Format must be EMP-1234</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Full name</mat-label>
+                <input matInput type="text" name="name" [(ngModel)]="employee.name" required minlength="3"
+                    maxlength="50" pattern="^[A-Za-z ]+$" #nameModel="ngModel" />
+                @if (nameModel.errors?.['required']) {
+                <mat-error>Name is required</mat-error>
+                } @else if (nameModel.errors?.['minlength']) {
+                <mat-error>Name must be at least 3 characters</mat-error>
+                } @else if (nameModel.errors?.['pattern']) {
+                <mat-error>Only letters and spaces allowed</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Work email</mat-label>
+                <input matInput type="email" name="email" [(ngModel)]="employee.email" required email
+                    #emailModel="ngModel" />
+                @if (emailModel.errors?.['required']) {
+                <mat-error>Email is required</mat-error>
+                } @else if (emailModel.errors?.['email']) {
+                <mat-error>Enter a valid email address</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Mobile number</mat-label>
+                <input matInput type="text" name="phone" [(ngModel)]="employee.phone" required pattern="^[6-9]\d{9}$"
+                    maxlength="10" #phoneModel="ngModel" />
+                @if (phoneModel.errors?.['required']) {
+                <mat-error>Mobile number is required</mat-error>
+                } @else if (phoneModel.errors?.['pattern']) {
+                <mat-error>Enter a valid 10-digit number starting with 6-9</mat-error>
+                }
+            </mat-form-field>
+
+            <div class="form-field-group">
+                <mat-form-field appearance="outline">
+                    <mat-label>Date of birth</mat-label>
+                    <input matInput type="date" name="dob" [(ngModel)]="employee.dob" required [max]="maxDob"
+                        #dobModel="ngModel" />
+                    @if (dobModel.errors?.['required']) {
+                    <mat-error>Date of birth is required</mat-error>
+                    }
+                </mat-form-field>
+                @if (isUnderAge) {
+                <span class="error">Employee must be at least 18 years old</span>
+                }
+            </div>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Department</mat-label>
+                <mat-select name="department" [(ngModel)]="employee.department" required #deptModel="ngModel">
+                    @for (dept of departments; track dept) {
+                    <mat-option [value]="dept">{{ dept }}</mat-option>
+                    }
+                </mat-select>
+                @if (deptModel.errors?.['required']) {
+                <mat-error>Please select a department</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Designation</mat-label>
+                <input matInput type="text" name="designation" [(ngModel)]="employee.designation" required minlength="2"
+                    maxlength="40" #desigModel="ngModel" />
+                @if (desigModel.errors?.['required']) {
+                <mat-error>Designation is required</mat-error>
+                } @else if (desigModel.errors?.['minlength']) {
+                <mat-error>Designation must be at least 2 characters</mat-error>
+                }
+            </mat-form-field>
+
+            <div class="form-field-group">
+                <mat-form-field appearance="outline">
+                    <mat-label>Joining date</mat-label>
+                    <input matInput type="date" name="joiningDate" [(ngModel)]="employee.joiningDate" required
+                        [max]="today" #joinModel="ngModel" />
+                    @if (joinModel.errors?.['required']) {
+                    <mat-error>Joining date is required</mat-error>
+                    }
+                </mat-form-field>
+                @if (isFutureJoining) {
+                <span class="error">Joining date cannot be in the future</span>
+                }
+            </div>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Experience (years)</mat-label>
+                <input matInput type="number" name="experience" [(ngModel)]="employee.experience" required min="0"
+                    max="40" #expModel="ngModel" />
+                @if (expModel.errors?.['required']) {
+                <mat-error>Experience is required</mat-error>
+                } @else if (expModel.errors?.['min']) {
+                <mat-error>Experience cannot be negative</mat-error>
+                } @else if (expModel.errors?.['max']) {
+                <mat-error>Experience cannot be more than 40 years</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>PIN code</mat-label>
+                <input matInput type="text" name="pincode" [(ngModel)]="employee.pincode" required
+                    pattern="^[1-9]\d{5}$" maxlength="6" #pinModel="ngModel" />
+                @if (pinModel.errors?.['required']) {
+                <mat-error>PIN code is required</mat-error>
+                } @else if (pinModel.errors?.['pattern']) {
+                <mat-error>Enter a valid 6-digit PIN code</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Address</mat-label>
+                <textarea matInput name="address" [(ngModel)]="employee.address" required minlength="10" maxlength="200"
+                    rows="3" #addrModel="ngModel"></textarea>
+                <mat-hint align="end">{{ (employee.address?.length || 0) }} / 200</mat-hint>
+                @if (addrModel.errors?.['required']) {
+                <mat-error>Address is required</mat-error>
+                } @else if (addrModel.errors?.['minlength']) {
+                <mat-error>Address must be at least 10 characters</mat-error>
+                }
+            </mat-form-field>
+
+            @if (message) {
+            <span class="message full-width"
+                [ngClass]="{ 'success-message': isSuccess, 'failure-message': !isSuccess }">{{ message
+                }}</span>
+            }
+
+            <button type="submit" class="submit-btn full-width"
+                [disabled]="empForm.invalid || isUnderAge || isFutureJoining">
+                Save Employee
+            </button>
+        </form>
+    </div>
+</div>

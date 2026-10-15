@@ -3,13 +3,13 @@ import { Component } from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 
 
 @Component({
   selector: 'app-login',
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, NgClass],
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, NgClass, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
