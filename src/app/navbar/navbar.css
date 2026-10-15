@@ -10,12 +10,14 @@
   top: 0;
   z-index: 1000;
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
 }
 
 .logo {
   margin: 0;
   font-size: 22px;
   font-weight: 700;
+  line-height: 1.2;
   letter-spacing: -0.3px;
   color: #ffffff;
 }
@@ -27,10 +29,14 @@
 }
 
 .nav-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: #cbd5e1;
   text-decoration: none;
   font-size: 15px;
   font-weight: 500;
+  line-height: 1.25;
   padding: 8px 14px;
   border-radius: 8px;
   transition:

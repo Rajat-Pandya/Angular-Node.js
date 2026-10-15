@@ -8,12 +8,11 @@ import { Registration } from './registration/registration';
 
 export const routes: Routes = [
     { path: '', component: Login, pathMatch: 'full' },
-    { path: '/home', component:Home },
-    { path: '/myself', component: Myself },
-    { path: '/about', component: About },
-    { path: '/login', component: Login },
-    { path: '/emp-detail', component: EmpDetail },
-    { path: '/registration', component: Registration },
-    { path:'**', component: Login },
-    
+    { path: 'home', component: Home },
+    { path: 'myself', component: Myself },
+    { path: 'about', component: About },
+    { path: 'login', component: Login },
+    { path: 'emp-detail', component: EmpDetail },
+    { path: 'registration', component: Registration },
+    { path: '**', component: Login },
 ];

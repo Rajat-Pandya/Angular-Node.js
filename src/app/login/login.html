@@ -3,7 +3,7 @@
 
     <form #loginForm="ngForm" (ngSubmit)="ToHome()">
         <div class="login-email">
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
                 <mat-label>Enter your email</mat-label>
                 <input matInput type="email" placeholder="pat@example.com" [(ngModel)]="email" name="email" required
                     #emailModel="ngModel" />
@@ -14,7 +14,7 @@
         </div>
 
         <div class="login-password">
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
                 <mat-label>Enter your password</mat-label>
                 <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password" required
                     #passwordModel="ngModel" />
@@ -32,5 +32,8 @@
         <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">LogIn</button>
     </form>
 
-    <span>Not a User?</span><a routerLink="/registration">Register</a>
+    <div class="register-redirect">
+        <span>Not a User?</span>
+        <a routerLink="/registration" class="register-link">Register</a>
+    </div>
 </div>

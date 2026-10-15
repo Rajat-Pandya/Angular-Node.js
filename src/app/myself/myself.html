@@ -33,7 +33,7 @@
 
         <label class="check-row">
             <input type="checkbox" [(ngModel)]="profile.openToInternships" />
-            Open to internships
+            <span>Open to internships</span>
         </label>
     </div>
 
@@ -49,7 +49,7 @@
         }
 
         <h3>About</h3>
-        <p>{{ profile.bio }}</p>
+        <p class="bio">{{ profile.bio }}</p>
 
         <h3>Skills</h3>
         <div class="skills">

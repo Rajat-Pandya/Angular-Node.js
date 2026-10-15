@@ -1,2 +1,44 @@
 <app-navbar></app-navbar>
-<h1>About Works</h1>
+<div class="hobby-page">
+
+    <header class="hero">
+        <h1>{{ getGreeting() }}, I'm {{ name }}</h1>
+        <p class="tagline">{{ tagline | titlecase }}</p>
+        <p class="hero-intro">{{ intro }}</p>
+        <small class="hero-date">Page viewed on {{ today | date: 'fullDate' }}</small>
+    </header>
+
+    <section class="summary">
+        <p>
+            I have <strong>{{ hobbyCount }}</strong> hobbies and spend about
+            <strong>{{ totalHours }}</strong> hours a week on them, which is
+            {{ (totalHours / 7).toFixed(1) }} hours a day.
+        </p>
+        <p>
+            {{ totalHours > 10 ? 'Quite a busy schedule!' : 'A nice relaxed routine.' }}
+        </p>
+    </section>
+
+    <section class="hobby-list">
+        <h2>{{ 'my hobbies' | uppercase }}</h2>
+
+        @for (hobby of hobbies; track hobby.name) {
+        <div class="hobby-card" title="{{ hobby.name }}">
+            <div class="icon">{{ hobby.icon }}</div>
+            <div class="info">
+                <h3>{{ $index + 1 }}. {{ hobby.name }}</h3>
+                <p>{{ hobby.description }}</p>
+                <span class="hours">
+                    {{ hobby.hoursPerWeek }} hrs/week -
+                    {{ hobby.hoursPerWeek >= 5 ? 'Daily habit' : 'Weekend thing' }}
+                </span>
+            </div>
+        </div>
+        }
+    </section>
+
+    <footer class="outro">
+        <p>Thanks for reading, {{ name.split(' ')[0] }}'s hobby page ends here.</p>
+    </footer>
+
+</div>
