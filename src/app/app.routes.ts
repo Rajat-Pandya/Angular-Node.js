@@ -5,6 +5,7 @@ import { About } from './about/about';
 import { Login } from './login/login';
 import { EmpDetail } from './emp-detail/emp-detail';
 import { Registration } from './registration/registration';
+import { JobApplicationComponent } from './job-application/job-application';
 
 export const routes: Routes = [
     { path: '', component: Login, pathMatch: 'full' },
@@ -14,5 +15,6 @@ export const routes: Routes = [
     { path: 'login', component: Login },
     { path: 'emp-detail', component: EmpDetail },
     { path: 'registration', component: Registration },
+    { path: 'job-application', component: JobApplicationComponent },
     { path: '**', component: Login },
 ];
