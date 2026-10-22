@@ -13,6 +13,9 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './myself.css',
 })
 export class Myself {
+
+  constructor(private router : Router){}
+
   profile = {
     name: 'Rajat Pandya',
     title: 'Final-year B.Tech CS Student',
@@ -38,4 +41,13 @@ export class Myself {
       .join('')
       .toUpperCase();
   }
+
+  routeParams(){
+    this.router.navigate(['/emp-detail', 101]);
+  }
+
+  queryParams(){
+    this.router.navigate(['/emp-detail'],{queryParams: {name: this.profile.name, college: this.profile.college}});
+  }
+
 }

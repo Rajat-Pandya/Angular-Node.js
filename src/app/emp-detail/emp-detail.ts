@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Navbar } from '../navbar/navbar';
 import { NgClass } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-emp-detail',
@@ -12,7 +13,11 @@ import { MatSelectModule } from '@angular/material/select';
   templateUrl: './emp-detail.html',
   styleUrl: './emp-detail.css',
 })
-export class EmpDetail {
+export class EmpDetail implements OnInit {
+  constructor(private active: ActivatedRoute){
+    
+  }
+
   departments = ['Engineering', 'HR', 'Finance', 'Sales', 'Operations'];
 
   employee = {
@@ -75,4 +80,13 @@ export class EmpDetail {
       address: ''
     };
   }
+
+  ngOnInit(){
+    this.active.params.subscribe((n) => console.log(n));
+    this.active.paramMap.subscribe((n) => console.log(n));
+    this.active.queryParams.subscribe((n) => console.log(n));
+  }
+
+
+
 }

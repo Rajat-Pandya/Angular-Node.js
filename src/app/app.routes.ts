@@ -14,6 +14,7 @@ export const routes: Routes = [
     { path: 'about', component: About },
     { path: 'login', component: Login },
     { path: 'emp-detail', component: EmpDetail },
+    { path: 'emp-detail/:id', component: EmpDetail },
     { path: 'registration', component: Registration },
     { path: 'job-application', component: JobApplicationComponent },
     { path: '**', component: Login },
