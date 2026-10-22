@@ -38,7 +38,7 @@ export class Child implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('4. ngOnDestroy: Child component is destroyed');
+    alert('4. ngOnDestroy: Child component is destroyed');
   }
 
   reply(): void {

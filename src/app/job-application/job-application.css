@@ -10,7 +10,6 @@
   justify-content: center;
   align-items: flex-start;
   padding: 40px 20px 60px;
-  box-sizing: border-box;
 }
 
 .job-page form,
@@ -21,7 +20,6 @@
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  box-sizing: border-box;
 }
 
 h1 {
@@ -49,16 +47,6 @@ legend {
   letter-spacing: -0.2px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px 24px;
-}
-
-.full {
-  grid-column: 1 / -1;
-}
-
 mat-form-field {
   width: 100%;
   display: block;
@@ -80,23 +68,18 @@ mat-error {
   flex: 1;
 }
 
-.row button[mat-button],
-.exp-card button[mat-button] {
+.row button[mat-button] {
   color: #dc2626;
   font-weight: 500;
   border-radius: 8px;
-}
-
-.row button[mat-button] {
   margin-top: -12px;
 }
 
-.row button[mat-button]:hover,
-.exp-card button[mat-button]:hover {
+.row button[mat-button]:hover {
   background-color: #fee2e2;
 }
 
-button[mat-stroked-button]:not(.actions button) {
+button[mat-stroked-button] {
   border-color: #cbd5e1;
   color: #2563eb;
   font-weight: 500;
@@ -104,48 +87,19 @@ button[mat-stroked-button]:not(.actions button) {
   margin-top: 6px;
 }
 
-button[mat-stroked-button]:not(.actions button):hover {
+button[mat-stroked-button]:hover {
   background-color: #eff6ff;
   border-color: #93c5fd;
 }
 
-.exp-card {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 20px 20px 14px;
-  margin-bottom: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-}
-
-mat-slide-toggle {
-  display: inline-block;
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 6px 0 16px;
   font-weight: 500;
   color: #334155;
-}
-
-.checks {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 24px;
-  padding: 6px 0 8px;
-  color: #334155;
-}
-
-.error {
-  display: block;
-  color: #dc2626;
-  font-size: 12.5px;
-  font-weight: 500;
-  line-height: 1.35;
-  margin: -4px 0 12px 2px;
-}
-
-.muted {
-  color: #64748b;
-  font-size: 14px;
-  margin: 0 0 12px;
+  cursor: pointer;
 }
 
 .actions {
@@ -160,7 +114,7 @@ mat-slide-toggle {
   min-height: 48px;
   border-radius: 8px;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   transition: all 0.2s ease;
 }
 
@@ -168,7 +122,6 @@ mat-slide-toggle {
   padding: 0 28px;
   background-color: #2563eb;
   color: #fff;
-  font-weight: 600;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
 
@@ -178,47 +131,9 @@ mat-slide-toggle {
   box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
 }
 
-.actions button[mat-flat-button]:disabled,
-.actions button[mat-stroked-button]:disabled {
+.actions button[mat-flat-button]:disabled {
   opacity: 0.55;
   cursor: not-allowed;
-}
-
-.actions button[mat-stroked-button] {
-  padding: 0 22px;
-  border: 1px solid #cbd5e1;
-  color: #334155;
-}
-
-.actions button[mat-stroked-button]:hover:not(:disabled) {
-  background-color: #f1f5f9;
-  border-color: #94a3b8;
-  color: #1e293b;
-}
-
-.actions button[mat-button] {
-  padding: 0 18px;
-  color: #2563eb;
-}
-
-.actions button[mat-button]:hover {
-  background-color: rgba(37, 99, 235, 0.08);
-}
-
-.state {
-  font-size: 13px;
-  color: #64748b;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  padding: 12px 18px;
-  border-radius: 8px;
-  margin-top: 20px;
-  line-height: 1.5;
-}
-
-.state strong,
-.summary p strong {
-  color: #1e293b;
 }
 
 .summary h2 {
@@ -243,6 +158,10 @@ mat-slide-toggle {
   font-size: 14.5px;
   line-height: 1.5;
   margin: 0 0 6px;
+}
+
+.summary p strong {
+  color: #1e293b;
 }
 
 .chip {
@@ -270,15 +189,6 @@ mat-slide-toggle {
   h1 {
     font-size: 22px;
     margin-bottom: 20px;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 8px 0;
-  }
-
-  .full {
-    grid-column: span 1;
   }
 
   fieldset {
