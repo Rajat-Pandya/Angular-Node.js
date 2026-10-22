@@ -1,16 +1,16 @@
 <app-navbar></app-navbar>
 
 <div class="job-page">
-
     @if (saved(); as app) {
-
     <!-- ================= SAVED APPLICATION ================= -->
     <section class="summary">
         <h2>Application saved</h2>
         <p class="muted">Submitted on {{ app.submittedAt | date: 'medium' }}</p>
 
         <h3>Personal details</h3>
-        <p><strong>{{ app.personal.fullName }}</strong> - born {{ app.personal.dateOfBirth }}</p>
+        <p>
+            <strong>{{ app.personal.fullName }}</strong> - born {{ app.personal.dateOfBirth }}
+        </p>
         <p>Phone: {{ app.personal.phone }}</p>
         <p>{{ app.personal.bio }}</p>
 
@@ -18,10 +18,15 @@
         <p>Username: {{ app.account.username }} - Email: {{ app.account.email }}</p>
 
         <h3>Address</h3>
-        <p>{{ app.address.street }}, {{ app.address.city }}, {{ app.address.state }} - {{ app.address.zipCode }}</p>
+        <p>
+            {{ app.address.street }}, {{ app.address.city }}, {{ app.address.state }} -
+            {{ app.address.zipCode }}
+        </p>
 
         <h3>Emergency contact</h3>
-        <p>{{ app.emergencyContact.name }} ({{ app.emergencyContact.relationship }}) - {{ app.emergencyContact.phone }}
+        <p>
+            {{ app.emergencyContact.name }} ({{ app.emergencyContact.relationship }}) -
+            {{ app.emergencyContact.phone }}
         </p>
 
         <h3>Skills</h3>
@@ -40,7 +45,10 @@
 
         <h3>Current employment</h3>
         @if (app.employment.currentlyEmployed) {
-        <p>Working at {{ app.employment.companyName }}, notice period {{ app.employment.noticePeriod }} days</p>
+        <p>
+            Working at {{ app.employment.companyName }}, notice period
+            {{ app.employment.noticePeriod }} days
+        </p>
         } @else {
         <p>Not currently employed</p>
         }
@@ -49,13 +57,13 @@
         <p>{{ app.jobTypes.join(', ') }}</p>
 
         <div class="actions">
-            <button mat-stroked-button type="button" (click)="editApplication()">Edit application</button>
+            <button mat-stroked-button type="button" (click)="editApplication()">
+                Edit application
+            </button>
             <button mat-flat-button type="button" (click)="startNew()">New application</button>
         </div>
     </section>
-
     } @else {
-
     <!-- ================= FORM ================= -->
     <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
         <h1>Job Application</h1>
@@ -67,7 +75,8 @@
                 <mat-form-field appearance="outline">
                     <mat-label>Full name</mat-label>
                     <input matInput formControlName="fullName" />
-                    <mat-error>{{ getError(personal.fullName, 'Full name', 'Only letters and spaces allowed')
+                    <mat-error>{{
+                        getError(personal.fullName, 'Full name', 'Only letters and spaces allowed')
                         }}</mat-error>
                 </mat-form-field>
 
@@ -80,7 +89,8 @@
                 <mat-form-field appearance="outline">
                     <mat-label>Mobile number</mat-label>
                     <input matInput formControlName="phone" maxlength="10" />
-                    <mat-error>{{ getError(personal.phone, 'Mobile number', '10 digits starting with 6-9')
+                    <mat-error>{{
+                        getError(personal.phone, 'Mobile number', '10 digits starting with 6-9')
                         }}</mat-error>
                 </mat-form-field>
 
@@ -103,7 +113,8 @@
                     @if (account.username.pending) {
                     <mat-hint>Checking availability...</mat-hint>
                     }
-                    <mat-error>{{ getError(account.username, 'Username', 'Lowercase letters, numbers and _ only')
+                    <mat-error>{{
+                        getError(account.username, 'Username', 'Lowercase letters, numbers and _ only')
                         }}</mat-error>
                 </mat-form-field>
 
@@ -119,8 +130,13 @@
                 <mat-form-field appearance="outline">
                     <mat-label>Password</mat-label>
                     <input matInput type="password" formControlName="password" autocomplete="new-password" />
-                    <mat-error>{{ getError(account.password, 'Password', 'Min 8 chars with uppercase, lowercase, number
-                        and special character') }}</mat-error>
+                    <mat-error>{{
+                        getError(
+                        account.password,
+                        'Password',
+                        'Min 8 chars with uppercase, lowercase, number and special character'
+                        )
+                        }}</mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
@@ -130,7 +146,9 @@
                 </mat-form-field>
             </div>
 
-            @if (form.controls.account.hasError('passwordMismatch') && account.confirmPassword.touched) {
+            @if (
+            form.controls.account.hasError('passwordMismatch') && account.confirmPassword.touched
+            ) {
             <span class="error">Passwords do not match</span>
             }
         </fieldset>
@@ -164,7 +182,9 @@
                 <mat-form-field appearance="outline">
                     <mat-label>PIN code</mat-label>
                     <input matInput formControlName="zipCode" maxlength="6" />
-                    <mat-error>{{ getError(address.zipCode, 'PIN code', 'Enter a valid 6-digit PIN code') }}</mat-error>
+                    <mat-error>{{
+                        getError(address.zipCode, 'PIN code', 'Enter a valid 6-digit PIN code')
+                        }}</mat-error>
                 </mat-form-field>
             </div>
         </fieldset>
@@ -182,7 +202,8 @@
                 <mat-form-field appearance="outline">
                     <mat-label>Contact mobile</mat-label>
                     <input matInput formControlName="phone" maxlength="10" />
-                    <mat-error>{{ getError(emergency.phone, 'Mobile number', '10 digits starting with 6-9')
+                    <mat-error>{{
+                        getError(emergency.phone, 'Mobile number', '10 digits starting with 6-9')
                         }}</mat-error>
                 </mat-form-field>
 
@@ -304,18 +325,17 @@
         <!-- Actions -->
         <div class="actions">
             <button mat-flat-button type="submit" [disabled]="form.pending">Submit application</button>
-            <button mat-stroked-button type="button" (click)="resetForm()" [disabled]="form.pristine">Reset</button>
+            <button mat-stroked-button type="button" (click)="resetForm()" [disabled]="form.pristine">
+                Reset
+            </button>
             <button mat-button type="button" (click)="fillSample()">Fill sample data</button>
         </div>
 
         <!-- Live form state -->
         <div class="state">
-            Status: <strong>{{ form.status }}</strong> |
-            Pristine: {{ form.pristine }} |
-            Dirty: {{ form.dirty }} |
-            Touched: {{ form.touched }}
+            Status: <strong>{{ form.status }}</strong> | Pristine: {{ form.pristine }} | Dirty:
+            {{ form.dirty }} | Touched: {{ form.touched }}
         </div>
     </form>
-
     }
 </div>
