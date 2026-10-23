@@ -2,6 +2,11 @@
   "name": "nodejs-crud-with-jwt",
   "version": "1.0.0",
   "description": "Node.js REST API with TypeScript, Express, Sequelize, and PostgreSQL",
+  "author": "Rajat Pandya",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
   "main": "dist/server.js",
   "scripts": {
     "start": "node dist/server.js",

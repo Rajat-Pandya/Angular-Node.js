@@ -110,11 +110,11 @@ src/
 DB_HOST=localhost
 DB_PORT=5432
 DB_USER=postgres
-DB_PASSWORD=Admin123
+DB_PASSWORD=your_password
 DB_NAME=riseDB
 PORT=3000
 NODE_ENV=development
-JWT_SECRET=super_secret_key_change_me_in_production
+JWT_SECRET=your_long_random_secret
 JWT_ACCESS_EXPIRATION=15m
 JWT_REFRESH_EXPIRATION=1d
 ```
