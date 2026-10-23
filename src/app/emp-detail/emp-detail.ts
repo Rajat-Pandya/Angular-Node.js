@@ -1,92 +1,118 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Navbar } from '../navbar/navbar';
-import { NgClass } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { ActivatedRoute } from '@angular/router';
+import { Employee, EmployeeService } from '../services/employee.service';
 
 @Component({
   selector: 'app-emp-detail',
-  imports: [Navbar, FormsModule, NgClass, MatFormFieldModule, MatInputModule, MatSelectModule],
+  imports: [Navbar, ReactiveFormsModule, CommonModule],
   templateUrl: './emp-detail.html',
   styleUrl: './emp-detail.css',
 })
 export class EmpDetail implements OnInit {
-  constructor(private active: ActivatedRoute){
-    
+  employeeForm: FormGroup;
+  employees: Employee[] = [];
+  isSubmitting: boolean = false;
+  message: string = '';
+  errorMessage: string = '';
+
+  defaultEmployees: Employee[] = [
+    {
+      id: 1,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@example.com',
+      department: 'Engineering',
+      designation: 'Developer',
+      salary: 50000.0,
+    },
+  ];
+
+  constructor(
+    private fb: FormBuilder,
+    private employeeService: EmployeeService
+  ) {
+    this.employeeForm = this.fb.group({
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      department: ['', [Validators.required]],
+      designation: ['', [Validators.required]],
+      salary: [50000, [Validators.required, Validators.min(0)]],
+    });
   }
 
-  departments = ['Engineering', 'HR', 'Finance', 'Sales', 'Operations'];
-
-  employee = {
-    empId: '',
-    name: '',
-    email: '',
-    phone: '',
-    dob: '',
-    department: '',
-    designation: '',
-    joiningDate: '',
-    experience: null as number | null,
-    pincode: '',
-    address: '' as string | null
-  };
-
-  message = '';
-  isSuccess = false;
-
-  get today(): string {
-    return new Date().toISOString().split('T')[0];
+  ngOnInit(): void {
+    this.loadEmployees();
   }
 
-  get maxDob(): string {
-    const d = new Date();
-    d.setFullYear(d.getFullYear() - 18);
-    return d.toISOString().split('T')[0];
+  loadEmployees(): void {
+    this.employeeService.getEmployees().subscribe({
+      next: (data: any) => {
+        const list = Array.isArray(data) ? data : data?.employees || data?.data || [];
+        this.employees = list.length > 0 ? list : [...this.defaultEmployees];
+      },
+      error: (err: any) => {
+        console.warn('Backend API not reachable, loading fallback employees:', err);
+        if (this.employees.length === 0) {
+          this.employees = [...this.defaultEmployees];
+        }
+      },
+    });
   }
 
-  get isUnderAge(): boolean {
-    return !!this.employee.dob && this.employee.dob > this.maxDob;
-  }
-
-  get isFutureJoining(): boolean {
-    return !!this.employee.joiningDate && this.employee.joiningDate > this.today;
-  }
-
-  saveEmployee(form: NgForm) {
-    if (form.invalid || this.isUnderAge || this.isFutureJoining) {
-      this.message = 'Please fix the errors before saving';
-      this.isSuccess = false;
+  addEmployee(): void {
+    if (this.employeeForm.invalid) {
+      this.employeeForm.markAllAsTouched();
       return;
     }
 
-    console.log(this.employee);
-    this.message = 'Employee saved successfully';
-    this.isSuccess = true;
-    form.resetForm();
-    this.employee = {
-      empId: '',
-      name: '',
-      email: '',
-      phone: '',
-      dob: '',
-      department: '',
-      designation: '',
-      joiningDate: '',
-      experience: null,
-      pincode: '',
-      address: ''
+    this.isSubmitting = true;
+    this.errorMessage = '';
+    const formVal = this.employeeForm.value;
+    const newEmp: Employee = {
+      firstName: formVal.firstName,
+      lastName: formVal.lastName,
+      email: formVal.email,
+      department: formVal.department,
+      designation: formVal.designation,
+      salary: Number(formVal.salary),
     };
+
+    this.employeeService.createEmployee(newEmp).subscribe({
+      next: () => {
+        this.isSubmitting = false;
+        this.loadEmployees();
+        this.employeeForm.reset({ salary: 50000 });
+      },
+      error: (err: any) => {
+        console.warn('Error from backend API, updating locally:', err);
+        this.isSubmitting = false;
+        const nextId = this.employees.length
+          ? Math.max(...this.employees.map((e) => Number(e.id) || 0)) + 1
+          : 1;
+        this.employees = [...this.employees, { ...newEmp, id: nextId }];
+        this.employeeForm.reset({ salary: 50000 });
+      },
+    });
   }
 
-  ngOnInit(){
-    this.active.params.subscribe((n) => console.log(n));
-    this.active.paramMap.subscribe((n) => console.log(n));
-    this.active.queryParams.subscribe((n) => console.log(n));
+  deleteEmployee(id?: number): void {
+    if (!id) return;
+    this.employeeService.deleteEmployee(id).subscribe({
+      next: () => {
+        this.loadEmployees();
+      },
+      error: (err: any) => {
+        console.warn('Backend delete failed, removing locally:', err);
+        this.employees = this.employees.filter((emp) => emp.id !== id);
+      },
+    });
   }
 
-
-
+  formatSalary(salary: any): string {
+    const val = Number(salary) || 0;
+    return val.toFixed(2);
+  }
 }

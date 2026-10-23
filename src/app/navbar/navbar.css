@@ -65,6 +65,19 @@
   font-weight: 600;
 }
 
+.nav-links a.logout-btn {
+  background-color: #dc2626;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 6px 14px;
+}
+
+.nav-links a.logout-btn:hover {
+  background-color: #b91c1c;
+  color: #ffffff;
+}
+
 .nav-links a:focus-visible {
   outline: 2px solid #38bdf8;
   outline-offset: 2px;

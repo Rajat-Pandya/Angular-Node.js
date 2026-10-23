@@ -1,62 +1,65 @@
 <div class="registration-card">
     <h2 class="registration-title">Create your account</h2>
 
-    <form #registerForm="ngForm" (ngSubmit)="ToSuccess(registerForm)" class="registration-form">
+    <form [formGroup]="form" (ngSubmit)="onRegister()" class="registration-form">
 
         <mat-form-field appearance="outline" subscriptSizing="dynamic">
-            <mat-label>Full name</mat-label>
-            <input matInput type="text" name="name" [(ngModel)]="name" required minlength="3" maxlength="50"
-                pattern="^[A-Za-z ]+$" #nameModel="ngModel" />
-            @if (nameModel.errors?.['required']) {
-            <mat-error>Name is required</mat-error>
-            } @else if (nameModel.errors?.['minlength']) {
-            <mat-error>Name must be at least 3 characters</mat-error>
-            } @else if (nameModel.errors?.['pattern']) {
-            <mat-error>Only letters and spaces allowed</mat-error>
+            <mat-label>Username</mat-label>
+            <input matInput type="text" formControlName="username" />
+            @if (form.get('username')?.touched && form.get('username')?.invalid) {
+                @if (form.get('username')?.hasError('required')) {
+                <mat-error>Username is required</mat-error>
+                } @else if (form.get('username')?.hasError('minlength')) {
+                <mat-error>Username must be at least 3 characters</mat-error>
+                } @else if (form.get('username')?.hasError('pattern')) {
+                <mat-error>Only letters, numbers and spaces allowed</mat-error>
+                }
             }
         </mat-form-field>
 
         <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label>Email</mat-label>
-            <input matInput type="email" name="email" [(ngModel)]="email" required email #emailModel="ngModel" />
-            @if (emailModel.errors?.['required']) {
-            <mat-error>Email is required</mat-error>
-            } @else if (emailModel.errors?.['email']) {
-            <mat-error>Enter a valid email address</mat-error>
+            <input matInput type="email" formControlName="email" />
+            @if (form.get('email')?.touched && form.get('email')?.invalid) {
+                @if (form.get('email')?.hasError('required')) {
+                <mat-error>Email is required</mat-error>
+                } @else if (form.get('email')?.hasError('email')) {
+                <mat-error>Enter a valid email address</mat-error>
+                }
             }
         </mat-form-field>
 
         <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label>Password</mat-label>
-            <input matInput type="password" name="password" [(ngModel)]="password" required minlength="8"
-                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9\s]).{8,}$" #passwordModel="ngModel" />
-            @if (passwordModel.errors?.['required']) {
-            <mat-error>Password is required</mat-error>
-            } @else if (passwordModel.errors?.['pattern'] || passwordModel.errors?.['minlength']) {
-            <mat-error>Min 8 chars with uppercase, lowercase, number and special character</mat-error>
+            <input matInput type="password" formControlName="password" />
+            @if (form.get('password')?.touched && form.get('password')?.invalid) {
+                @if (form.get('password')?.hasError('required')) {
+                <mat-error>Password is required</mat-error>
+                } @else if (form.get('password')?.hasError('pattern') || form.get('password')?.hasError('minlength')) {
+                <mat-error>Min 8 chars with uppercase, lowercase, number and special character</mat-error>
+                }
             }
         </mat-form-field>
 
         <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-label>Confirm password</mat-label>
-            <input matInput type="password" name="confirmPassword" [(ngModel)]="confirmPassword" required
-                #confirmModel="ngModel" />
-            @if (confirmModel.errors?.['required']) {
-            <mat-error>Please confirm your password</mat-error>
+            <input matInput type="password" formControlName="confirmPassword" />
+            @if (form.get('confirmPassword')?.touched && form.get('confirmPassword')?.invalid) {
+                @if (form.get('confirmPassword')?.hasError('required')) {
+                <mat-error>Please confirm your password</mat-error>
+                }
             }
         </mat-form-field>
 
-        @if (confirmPassword && password !== confirmPassword) {
+        @if ((form.hasError('passwordMismatch') || form.get('confirmPassword')?.hasError('passwordMismatch')) && (form.get('confirmPassword')?.touched || form.get('confirmPassword')?.dirty)) {
         <span class="error-message">Passwords do not match</span>
         }
 
-        @if (message) {
-        <span class="message" [ngClass]="{ 'success-message': isSuccess, 'failure-message': !isSuccess }">{{ message
-            }}</span>
+        @if (errorMessage) {
+        <span class="message failure-message">{{ errorMessage }}</span>
         }
 
-        <button type="submit" class="submit-btn"
-            [disabled]="registerForm.invalid || password !== confirmPassword || isSubmitting">
+        <button type="submit" class="submit-btn" [disabled]="form.invalid || isSubmitting">
             Register
         </button>
     </form>

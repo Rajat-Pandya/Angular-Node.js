@@ -1,7 +1,7 @@
 <div class="login-card">
     <h2>Sign in to continue</h2>
 
-    <form #loginForm="ngForm" (ngSubmit)="ToHome()">
+    <form #loginForm="ngForm" (ngSubmit)="onLogin()">
         <div class="login-email">
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
                 <mat-label>Enter your email</mat-label>
@@ -24,7 +24,9 @@
             }
 
         </div>
-        @if (message) {
+        @if (errorMessage) {
+        <span class="message failure-message">{{ errorMessage }}</span>
+        } @else if (message) {
         <span class="message"
             [ngClass]="{ 'success-message' : isSuccess, 'failure-message' : !isSuccess }">{{message}}</span>
         }
