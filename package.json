@@ -1,6 +1,9 @@
 {
   "name": "practice-angular",
   "version": "0.0.0",
+  "description": "Angular 21 frontend for the Employee Management System",
+  "author": "Rajat Pandya",
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

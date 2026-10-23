@@ -1,59 +1,109 @@
 # PracticeAngular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.21.
+The Angular 21 frontend for the [Employee Management System](../README.md). It provides authentication pages and an employee management dashboard backed by the [Node.js API](../Node.js%20Project/README.md).
 
-## Development server
+This project was built by **Rajat Pandya** as a hands-on learning exercise using **Antigravity IDE** with a **spec-driven development (SDD)** workflow. It focuses on modern standalone components, reactive forms, route-level API calls, and Angular Material UI.
 
-To start a local development server, run:
+## Features
 
-```bash
-ng serve
+- Login page with JWT token storage
+- Registration page with reactive-form validation and password matching
+- HTTP interceptor that attaches `Authorization: Bearer <token>` to API requests
+- Employee management page with add, list, and delete actions
+- Practice components for component communication, routing, and forms
+- Angular Material form fields and inputs
+- Local fallback data when the backend is unavailable
+
+## Tech stack
+
+- Angular 21 (standalone components, signals)
+- TypeScript 5.9
+- Angular Material / CDK
+- RxJS
+- SCSS
+- Vitest for unit tests
+
+## Project structure
+
+```text
+src/app/
+├── core/
+│   └── auth.interceptor.ts     # Adds the JWT bearer token to requests
+├── services/
+│   ├── auth.service.ts         # Login and registration API client
+│   └── employee.service.ts     # Employee API client
+├── login/                      # Login page
+├── registration/               # Registration page
+├── emp-detail/                 # Employee management page
+├── home/                       # Parent/child component demo
+├── about/                      # About page
+├── myself/                     # Profile-style demo page
+├── job-application/            # Reactive form demo
+├── navbar/                     # Shared navigation bar
+├── app.routes.ts               # Application routes
+└── app.config.ts               # Providers and HTTP interceptor setup
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Routes
 
-## Code scaffolding
+| Path | Component |
+| --- | --- |
+| `/` | Login |
+| `/login` | Login |
+| `/registration` | Registration |
+| `/home` | Home |
+| `/emp-detail` | Employee management |
+| `/about` | About |
+| `/myself` | Myself |
+| `/job-application` | Job application form |
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+The wildcard route redirects unknown paths to the login page.
 
-```bash
-ng generate component component-name
-```
+## Prerequisites
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- Node.js 20 or newer
+- npm 11 or newer
+- The backend API running on `http://localhost:3000`
 
-```bash
-ng generate --help
-```
+## Getting started
 
-## Building
+1. Install dependencies:
 
-To build the project run:
+   ```bash
+   npm ci
+   ```
 
-```bash
-ng build
-```
+2. Start the development server:
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+   ```bash
+   npm start
+   ```
 
-## Running unit tests
+3. Open `http://localhost:4200`.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+The API URLs are currently defined in `src/app/services/auth.service.ts` and `src/app/services/employee.service.ts`.
 
-```bash
-ng test
-```
+## Scripts
 
-## Running end-to-end tests
+| Command | Description |
+| --- | --- |
+| `npm start` | Start the Angular dev server |
+| `npm run build` | Create a production build in `dist/` |
+| `npm run watch` | Build continuously in development mode |
+| `npm test` | Run unit tests |
 
-For end-to-end (e2e) testing, run:
+## Backend integration
 
-```bash
-ng e2e
-```
+The frontend calls the API at `http://localhost:3000`:
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/employees`
+- `POST /api/employees`
+- `DELETE /api/employees/:id`
 
-## Additional Resources
+Start the backend first using the instructions in [the API README](../Node.js%20Project/README.md).
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## License
+
+This project is licensed under the [MIT License](../LICENSE).
