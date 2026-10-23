@@ -1,0 +1,121 @@
+<app-navbar></app-navbar>
+
+<div class="emp-management-container">
+    <!-- Header Section -->
+    <div class="page-header">
+        <h1 class="page-title">Employee Management</h1>
+        <p class="page-subtitle">Node.js REST API with PostgreSQL &amp; JWT Interceptor</p>
+    </div>
+
+    <!-- Add New Employee Card -->
+    <div class="card form-card">
+        <h2 class="card-title">Add New Employee (Reactive Form)</h2>
+
+        <form [formGroup]="employeeForm" (ngSubmit)="addEmployee()" class="employee-form">
+            <div class="form-row top-row">
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-control" formControlName="firstName" placeholder="Enter first name" />
+                    @if (employeeForm.get('firstName')?.touched && employeeForm.get('firstName')?.invalid) {
+                    <span class="field-error">First name is required</span>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-control" formControlName="lastName" placeholder="Enter last name" />
+                    @if (employeeForm.get('lastName')?.touched && employeeForm.get('lastName')?.invalid) {
+                    <span class="field-error">Last name is required</span>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" formControlName="email" placeholder="Enter email" />
+                    @if (employeeForm.get('email')?.touched && employeeForm.get('email')?.invalid) {
+                    <span class="field-error">Valid email is required</span>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Department</label>
+                    <input type="text" class="form-control" formControlName="department" placeholder="e.g. IT, HR, Sales" />
+                    @if (employeeForm.get('department')?.touched && employeeForm.get('department')?.invalid) {
+                    <span class="field-error">Department is required</span>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Designation</label>
+                    <input type="text" class="form-control" formControlName="designation" placeholder="e.g. Developer" />
+                    @if (employeeForm.get('designation')?.touched && employeeForm.get('designation')?.invalid) {
+                    <span class="field-error">Designation is required</span>
+                    }
+                </div>
+            </div>
+
+            <div class="form-row bottom-row">
+                <div class="form-group salary-group">
+                    <label class="form-label">Salary (₹)</label>
+                    <input type="number" class="form-control" formControlName="salary" placeholder="50000" />
+                    @if (employeeForm.get('salary')?.touched && employeeForm.get('salary')?.invalid) {
+                    <span class="field-error">Salary is required</span>
+                    }
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn-add-employee" [disabled]="employeeForm.invalid || isSubmitting">
+                        + Add Employee
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Employee Directory Card -->
+    <div class="card directory-card">
+        <div class="directory-header">
+            <h2 class="card-title">Employee Directory</h2>
+            <span class="total-badge">Total: {{ employees.length }}</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="employee-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Designation</th>
+                        <th>Salary</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (emp of employees; track emp.id || $index) {
+                    <tr>
+                        <td class="emp-id">#{{ emp.id }}</td>
+                        <td class="emp-name">{{ emp.firstName }} {{ emp.lastName }}</td>
+                        <td class="emp-email">{{ emp.email }}</td>
+                        <td>
+                            <span class="dept-badge">{{ emp.department }}</span>
+                        </td>
+                        <td class="emp-designation">{{ emp.designation || '-' }}</td>
+                        <td class="emp-salary">₹{{ formatSalary(emp.salary) }}</td>
+                        <td>
+                            <button type="button" class="btn-delete" (click)="deleteEmployee(emp.id)">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="7" class="no-records">No employees found</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+<app-navbar></app-navbar>
+<div class="about-page">
+
+    <!-- LEFT: edit side -->
+    <div class="edit-panel">
+        <h2>Edit your details</h2>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Full name</mat-label>
+            <input matInput type="text" [(ngModel)]="profile.name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Title</mat-label>
+            <input matInput type="text" [(ngModel)]="profile.title" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>College</mat-label>
+            <input matInput type="text" [(ngModel)]="profile.college" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>About me</mat-label>
+            <textarea matInput rows="4" maxlength="250" [(ngModel)]="profile.bio"></textarea>
+            <mat-hint align="end">{{ profile.bio.length }} / 250</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Skills (comma separated)</mat-label>
+            <input matInput type="text" [(ngModel)]="profile.skills" />
+        </mat-form-field>
+
+        <label class="check-row">
+            <input type="checkbox" [(ngModel)]="profile.openToInternships" />
+            <span>Open to internships</span>
+        </label>
+    </div>
+
+    <!-- RIGHT: live preview -->
+    <div class="preview-card">
+        <div class="avatar">{{ initials }}</div>
+        <h1>{{ profile.name || 'Your name' }}</h1>
+        <p class="title">{{ profile.title }}</p>
+        <p class="college">{{ profile.college }}</p>
+
+        @if (profile.openToInternships) {
+        <span class="badge">Open to internships</span>
+        }
+
+        <h3>About</h3>
+        <p class="bio">{{ profile.bio }}</p>
+
+        <h3>Skills</h3>
+        <div class="skills">
+            @for (skill of skillList; track $index) {
+            <span class="skill-chip">{{ skill }}</span>
+            }
+        </div>
+    </div>
+
+    <button (click)="routeParams()">routeParams</button>
+
+    <button (click)="queryParams()">queryParams</button>
+
+</div>

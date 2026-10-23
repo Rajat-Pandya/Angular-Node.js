@@ -1,0 +1,36 @@
+<app-navbar></app-navbar>
+
+<div class="home-container">
+    <div class="parent-card">
+        <h1 class="page-title">Home Page (Parent Component)</h1>
+
+        <div class="form-group">
+            <label for="parentInput" class="form-label">Message to Child (&#64;Input):</label>
+            <input id="parentInput" type="text" class="text-input" [(ngModel)]="greeting"
+                placeholder="Type message to pass to child..." />
+        </div>
+
+        <div class="reply-section">
+            <span class="reply-title">Reply from Child (&#64;Output):</span>
+            @if (replyMessage) {
+            <div class="reply-box">
+                {{ replyMessage }}
+            </div>
+            }
+        </div>
+
+        <div class="action-bar">
+            <button type="button" class="btn-toggle" (click)="toggleChild()">
+                @if (showChild) {
+                Hide Child (Triggers ngOnDestroy)
+                } @else {
+                Show Child (Triggers ngOnInit)
+                }
+            </button>
+        </div>
+
+        @if (showChild) {
+        <app-child [msg]="greeting" (send)="receive($event)"></app-child>
+        }
+    </div>
+</div>

@@ -1,0 +1,71 @@
+<div class="registration-card">
+    <h2 class="registration-title">Create your account</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onRegister()" class="registration-form">
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Username</mat-label>
+            <input matInput type="text" formControlName="username" />
+            @if (form.get('username')?.touched && form.get('username')?.invalid) {
+                @if (form.get('username')?.hasError('required')) {
+                <mat-error>Username is required</mat-error>
+                } @else if (form.get('username')?.hasError('minlength')) {
+                <mat-error>Username must be at least 3 characters</mat-error>
+                } @else if (form.get('username')?.hasError('pattern')) {
+                <mat-error>Only letters, numbers and spaces allowed</mat-error>
+                }
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" />
+            @if (form.get('email')?.touched && form.get('email')?.invalid) {
+                @if (form.get('email')?.hasError('required')) {
+                <mat-error>Email is required</mat-error>
+                } @else if (form.get('email')?.hasError('email')) {
+                <mat-error>Enter a valid email address</mat-error>
+                }
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" />
+            @if (form.get('password')?.touched && form.get('password')?.invalid) {
+                @if (form.get('password')?.hasError('required')) {
+                <mat-error>Password is required</mat-error>
+                } @else if (form.get('password')?.hasError('pattern') || form.get('password')?.hasError('minlength')) {
+                <mat-error>Min 8 chars with uppercase, lowercase, number and special character</mat-error>
+                }
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Confirm password</mat-label>
+            <input matInput type="password" formControlName="confirmPassword" />
+            @if (form.get('confirmPassword')?.touched && form.get('confirmPassword')?.invalid) {
+                @if (form.get('confirmPassword')?.hasError('required')) {
+                <mat-error>Please confirm your password</mat-error>
+                }
+            }
+        </mat-form-field>
+
+        @if ((form.hasError('passwordMismatch') || form.get('confirmPassword')?.hasError('passwordMismatch')) && (form.get('confirmPassword')?.touched || form.get('confirmPassword')?.dirty)) {
+        <span class="error-message">Passwords do not match</span>
+        }
+
+        @if (errorMessage) {
+        <span class="message failure-message">{{ errorMessage }}</span>
+        }
+
+        <button type="submit" class="submit-btn" [disabled]="form.invalid || isSubmitting">
+            Register
+        </button>
+    </form>
+
+    <div class="login-redirect">
+        <span>Already have an account?</span>
+        <a routerLink="/login" class="login-link">Log in</a>
+    </div>
+</div>

@@ -1,0 +1,154 @@
+<app-navbar></app-navbar>
+<div class="job-page">
+
+    @if (saved) {
+
+    <!-- SAVED APPLICATION -->
+    <section class="summary">
+        <h2>Application saved</h2>
+
+        <h3>Personal details</h3>
+        <p><strong>{{ saved.fullName }}</strong></p>
+        <p>Email: {{ saved.email }}</p>
+        <p>Phone: {{ saved.phone }}</p>
+
+        <h3>Address</h3>
+        <p>{{ saved.address.street }}, {{ saved.address.city }} - {{ saved.address.zipCode }}</p>
+
+        <h3>Skills</h3>
+        @for (skill of saved.skills; track $index) {
+        <span class="chip">{{ skill }}</span>
+        }
+
+        <h3>Employment</h3>
+        @if (saved.currentlyEmployed) {
+        <p>Currently working at {{ saved.companyName }}</p>
+        } @else {
+        <p>Not currently employed</p>
+        }
+
+        <div class="actions">
+            <button mat-flat-button type="button" (click)="newApplication()">New application</button>
+        </div>
+    </section>
+
+    } @else {
+
+    <!-- FORM -->
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <h1>Job Application</h1>
+
+        <!-- Personal details -->
+        <fieldset>
+            <legend>Personal details</legend>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Full name</mat-label>
+                <input matInput formControlName="fullName" />
+                @if (form.get('fullName')?.hasError('required')) {
+                <mat-error>Full name is required</mat-error>
+                } @else if (form.get('fullName')?.hasError('minlength')) {
+                <mat-error>At least 3 characters</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" />
+                @if (form.get('email')?.hasError('required')) {
+                <mat-error>Email is required</mat-error>
+                } @else if (form.get('email')?.hasError('email')) {
+                <mat-error>Enter a valid email</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Mobile number</mat-label>
+                <input matInput formControlName="phone" maxlength="10" />
+                @if (form.get('phone')?.hasError('required')) {
+                <mat-error>Mobile number is required</mat-error>
+                } @else if (form.get('phone')?.hasError('pattern')) {
+                <mat-error>Enter 10 digits starting with 6-9</mat-error>
+                }
+            </mat-form-field>
+        </fieldset>
+
+        <!-- Address: nested group -->
+        <fieldset formGroupName="address">
+            <legend>Address</legend>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Street</mat-label>
+                <input matInput formControlName="street" />
+                @if (form.get('address.street')?.hasError('required')) {
+                <mat-error>Street is required</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>City</mat-label>
+                <input matInput formControlName="city" />
+                @if (form.get('address.city')?.hasError('required')) {
+                <mat-error>City is required</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>PIN code</mat-label>
+                <input matInput formControlName="zipCode" maxlength="6" />
+                @if (form.get('address.zipCode')?.hasError('required')) {
+                <mat-error>PIN code is required</mat-error>
+                } @else if (form.get('address.zipCode')?.hasError('pattern')) {
+                <mat-error>Enter a valid 6-digit PIN code</mat-error>
+                }
+            </mat-form-field>
+        </fieldset>
+
+        <!-- Skills: FormArray -->
+        <fieldset formArrayName="skills">
+            <legend>Skills</legend>
+
+            @for (skill of skills.controls; track skill; let i = $index) {
+            <div class="row">
+                <mat-form-field appearance="outline">
+                    <mat-label>Skill {{ i + 1 }}</mat-label>
+                    <input matInput [formControlName]="i" />
+                    <mat-error>Skill is required</mat-error>
+                </mat-form-field>
+
+                @if (skills.length > 1) {
+                <button mat-button type="button" (click)="removeSkill(i)">Remove</button>
+                }
+            </div>
+            }
+
+            <button mat-stroked-button type="button" (click)="addSkill()">+ Add skill</button>
+        </fieldset>
+
+        <!-- Employment: conditional validation -->
+        <fieldset>
+            <legend>Current employment</legend>
+
+            <label class="check-row">
+                <input type="checkbox" formControlName="currentlyEmployed" />
+                I am currently employed
+            </label>
+
+            @if (form.value.currentlyEmployed) {
+            <mat-form-field appearance="outline">
+                <mat-label>Current company</mat-label>
+                <input matInput formControlName="companyName" />
+                @if (form.get('companyName')?.hasError('required')) {
+                <mat-error>Company name is required</mat-error>
+                }
+            </mat-form-field>
+            }
+        </fieldset>
+
+        <div class="actions">
+            <button mat-flat-button type="submit">Submit application</button>
+        </div>
+    </form>
+
+    }
+</div>

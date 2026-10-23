@@ -1,0 +1,23 @@
+<div class="child-box">
+    <h3 class="child-title">Child Component</h3>
+
+    <p class="child-input-info">
+        <span class="label">Received from Parent (&#64;Input):</span>
+        <span class="msg-value">{{ msg }}</span>
+    </p>
+
+    <div class="action-row">
+        <button type="button" class="btn-reply" (click)="reply()">
+            Send Reply to Parent (&#64;Output)
+        </button>
+    </div>
+
+    <div class="logs-container">
+        <h4 class="logs-header">Lifecycle Logs:</h4>
+        <ul class="logs-list">
+            @for (log of logs; track $index) {
+            <li>{{ log }}</li>
+            }
+        </ul>
+    </div>
+</div>
