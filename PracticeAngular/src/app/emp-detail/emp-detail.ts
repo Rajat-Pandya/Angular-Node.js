@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Navbar } from '../navbar/navbar';
@@ -31,7 +31,8 @@ export class EmpDetail implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private cdr: ChangeDetectorRef
   ) {
     this.employeeForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2)]],
@@ -52,12 +53,14 @@ export class EmpDetail implements OnInit {
       next: (data: any) => {
         const list = Array.isArray(data) ? data : data?.employees || data?.data || [];
         this.employees = list.length > 0 ? list : [...this.defaultEmployees];
+        this.cdr.markForCheck();
       },
       error: (err: any) => {
         console.warn('Backend API not reachable, loading fallback employees:', err);
         if (this.employees.length === 0) {
           this.employees = [...this.defaultEmployees];
         }
+        this.cdr.markForCheck();
       },
     });
   }
@@ -85,6 +88,7 @@ export class EmpDetail implements OnInit {
         this.isSubmitting = false;
         this.loadEmployees();
         this.employeeForm.reset({ salary: 50000 });
+        this.cdr.markForCheck();
       },
       error: (err: any) => {
         console.warn('Error from backend API, updating locally:', err);
@@ -94,6 +98,7 @@ export class EmpDetail implements OnInit {
           : 1;
         this.employees = [...this.employees, { ...newEmp, id: nextId }];
         this.employeeForm.reset({ salary: 50000 });
+        this.cdr.markForCheck();
       },
     });
   }
@@ -107,6 +112,7 @@ export class EmpDetail implements OnInit {
       error: (err: any) => {
         console.warn('Backend delete failed, removing locally:', err);
         this.employees = this.employees.filter((emp) => emp.id !== id);
+        this.cdr.markForCheck();
       },
     });
   }

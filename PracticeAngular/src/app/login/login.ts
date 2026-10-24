@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -15,7 +15,8 @@ import { AuthService } from '../services/auth.service';
 export class Login {
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   email: string = '';
@@ -27,6 +28,7 @@ export class Login {
   onLogin(): void {
     if (this.email && this.password) {
       this.errorMessage = '';
+      this.message = '';
 
       // Call Node.js Backend Login API: POST /api/auth/login
       this.authService.login({ email: this.email, password: this.password }).subscribe({
@@ -37,12 +39,21 @@ export class Login {
           // 2. Save user info for display
           sessionStorage.setItem('loginUser', res.user?.username || this.email);
 
-          // 3. Navigate to home page
-          this.router.navigate(['/home']);
+          // 3. Display success message
+          this.isSuccess = true;
+          this.message = res.message || 'Logged in successfully!';
+          this.cdr.markForCheck();
+
+          // 4. Wait 1.5 seconds before navigating to home page
+          setTimeout(() => {
+            this.router.navigate(['/home']);
+          }, 1500);
         },
         error: (err: any) => {
           // Display backend error message (e.g., "Invalid credentials")
+          this.isSuccess = false;
           this.errorMessage = err.error?.message || 'Login failed. Please check credentials.';
+          this.cdr.markForCheck();
         },
       });
     }

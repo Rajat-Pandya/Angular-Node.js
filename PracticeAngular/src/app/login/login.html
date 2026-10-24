@@ -31,7 +31,7 @@
             [ngClass]="{ 'success-message' : isSuccess, 'failure-message' : !isSuccess }">{{message}}</span>
         }
 
-        <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">LogIn</button>
+        <button type="submit" class="submit-btn" [disabled]="loginForm.invalid || isSuccess">LogIn</button>
     </form>
 
     <div class="register-redirect">
